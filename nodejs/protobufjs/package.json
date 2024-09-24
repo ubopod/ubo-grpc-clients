@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@grpc/grpc-js": "^1.11.3",
+    "@grpc/proto-loader": "^0.7.13",
+    "protobufjs": "^7.4.0",
+    "protobufjs-cli": "^1.1.3",
+    "tsx": "^4.19.1"
+  },
+  "scripts": {
+    "compile": "pbjs -t static-module -w es6 -p ../../proto/ ../../proto/store/v1/store.proto -o generated-protobufjs.js && pbts -o generated-protobufjs.d.ts generated-protobufjs.js",
+    "start": "tsx ./client.ts"
+  },
+  "devDependencies": {
+    "grpc-tools": "^1.12.4"
+  }
+}
