@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@grpc/grpc-js": "^1.11.3",
+    "tsx": "^4.19.1"
+  },
+  "scripts": {
+    "compile": "mkdir -p generated && npx grpc_tools_node_protoc --plugin=protoc-gen-ts_proto=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./generated --ts_proto_opt=outputServices=grpc-js,esModuleInterop=true -I ../../proto/ ../../proto/store/v1/store.proto",
+    "start": "tsx ./client.ts"
+  },
+  "devDependencies": {
+    "grpc-tools": "^1.12.4",
+    "ts-proto": "^2.2.0"
+  }
+}
