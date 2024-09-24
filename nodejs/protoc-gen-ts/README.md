@@ -1,4 +1,6 @@
-# protobuf.js - TypeScript
+# protoc-gen-ts
+
+_Note: This client is not recommended for ubo at the moment because it doesn't support optional fields yet which makes optional fields take default value instead of being unset. It is being tracked [here](https://github.com/thesayyn/protoc-gen-ts/issues/252)._
 
 Check out [./client.ts](./client.ts) for the client code.
 
