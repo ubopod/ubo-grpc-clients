@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "ubo-rpc-client-betterproto"
+version = "0.0.0"
+description = "A demo gRPC client for UBO using betterproto"
+authors = ["Sassan Haradji <me@sassanh.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+keywords = ["gRPC", "betterproto", "ubo", "Python"]
+repository = "https://github.com/ubopod/ubo-grpc-clients"
+packages = [{ include = "client.py", from = "." }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+betterproto = { extras = ["compiler"], version = "^2.0.0b7" }
+
+[tool.poetry.group.dev.dependencies]
+poethepoet = "^0.29.0"
+grpcio-tools = "^1.66.1"
+
+[tool.poetry.scripts]
+main = "client:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poe.tasks]
+"compile" = "sh -c 'mkdir -p generated && python -m grpc_tools.protoc -I ../../proto/ --python_betterproto_opt=typing.310 --python_betterproto_out=generated/ ../../proto/store/v1/store.proto'"
+"start" = "poetry run main"
