@@ -15,7 +15,7 @@ Check out [./client.ts](./client.ts) for the client code.
 1. Generate the TypeScript code from the Protobuf definitions:
 
    ```bash
-   npm run generate
+   npm run compile
    ```
 
 1. Run the client:

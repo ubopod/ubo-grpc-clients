@@ -1,4 +1,17 @@
 {
+  "name": "ubo-rpc-client-protobufjs",
+  "version": "0.0.0",
+  "description": "A demo gRPC client for UBO using protobufjs",
+  "author": "Sassan Haradji <me@sassanh.com>",
+  "license": "Apache-2.0",
+  "readme": "README.md",
+  "keywords": [
+    "gRPC",
+    "protobufjs",
+    "ubo",
+    "TypeScript"
+  ],
+  "repository": "https://github.com/ubopod/ubo-grpc-clients",
   "dependencies": {
     "@grpc/grpc-js": "^1.11.3",
     "@grpc/proto-loader": "^0.7.13",

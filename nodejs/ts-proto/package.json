@@ -1,4 +1,17 @@
 {
+  "name": "ubo-rpc-client-ts-proto",
+  "version": "0.0.0",
+  "description": "A demo gRPC client for UBO using ts-proto",
+  "author": "Sassan Haradji <me@sassanh.com>",
+  "license": "Apache-2.0",
+  "readme": "README.md",
+  "keywords": [
+    "gRPC",
+    "ts-proto",
+    "ubo",
+    "TypeScript"
+  ],
+  "repository": "https://github.com/ubopod/ubo-grpc-clients",
   "dependencies": {
     "@grpc/grpc-js": "^1.11.3",
     "tsx": "^4.19.1"
