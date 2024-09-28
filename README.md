@@ -9,6 +9,15 @@ Copy the [`proto/` directory](https://github.com/ubopod/ubo_app/tree/main/ubo_ap
 ## Sample Clients
 
 - Node.js
+
   - [ts-proto](nodejs/ts-proto)
   - [protobuf.js - TypeScript](nodejs/protobufjs)
   - [protoc-gen-ts](nodejs/protoc-gen-ts) (not recommended at the moment)
+
+- Web
+
+  - [grpc-web](web/grpc-web)
+
+- Python
+
+  - [betterproto](python/betterproto)
