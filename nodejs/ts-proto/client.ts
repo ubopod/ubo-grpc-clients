@@ -7,7 +7,7 @@ import { Chime } from "./generated/ubo/v1/ubo";
 
 // Create a client instance
 const client = new StoreServiceClient(
-  "localhost:50051",
+  `${process.env.GRPC_HOST || "localhost"}:${process.env.GRPC_PORT || "50051"}`,
   credentials.createInsecure(),
 );
 

@@ -17,7 +17,10 @@ const ubo = uboApp.ubo.v1;
 // Create a client instance
 const client: InstanceType<typeof store.StoreService> = new (
   uboAppGrpc as any
-).store.v1.StoreService("localhost:50051", grpc.credentials.createInsecure());
+).store.v1.StoreService(
+  `${process.env.GRPC_HOST || "localhost"}:${process.env.GRPC_PORT || "50051"}`,
+  grpc.credentials.createInsecure(),
+);
 
 // Prepare the request
 const request = new store.DispatchActionRequest({

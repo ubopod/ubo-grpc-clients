@@ -9,7 +9,7 @@ Check out [./client.ts](./client.ts) for the client code.
 1. Install the dependencies:
 
    ```bash
-   npm install
+   npm install --dev
    ```
 
 1. Generate the TypeScript code from the Protobuf definitions:
@@ -21,5 +21,5 @@ Check out [./client.ts](./client.ts) for the client code.
 1. Run the client:
 
    ```bash
-   npm start
+   GRPC_HOST=<device_ip> npm start
    ```

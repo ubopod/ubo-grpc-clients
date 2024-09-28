@@ -19,7 +19,7 @@ const StoreService = protoDescriptor.store.v1.StoreService;
 
 // Create a client instance
 const client = new StoreService(
-  "localhost:50051",
+  `${process.env.GRPC_HOST || "localhost"}:${process.env.GRPC_PORT || "50051"}`,
   grpc.credentials.createInsecure(),
 ) as store.v1.StoreServiceClient;
 

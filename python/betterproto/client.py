@@ -39,8 +39,8 @@ from generated.ubo.v1 import (
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-SERVER_HOST = '127.0.0.1'
-SERVER_PORT = 50051
+SERVER_HOST = os.environ.get('GRPC_HOST', '127.0.0.1')
+SERVER_PORT = int(os.environ.get('GRPC_PORT', '50051'))
 
 
 class AsyncRemoteStore:

@@ -21,5 +21,5 @@ Check out [./client.py](./client.py) for the client code.
 1. Run the client:
 
    ```bash
-   poe start
+   GRPC_HOST=<device_ip> poe start
    ```
