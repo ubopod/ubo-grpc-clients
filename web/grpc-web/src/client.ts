@@ -67,8 +67,12 @@ function subscribeToRenderEvents() {
         const canvas = document.getElementById("canvas") as HTMLCanvasElement;
         canvas.width = width;
         canvas.height = width;
+
         const context = canvas.getContext("2d");
-        context?.putImageData(
+
+        if (!context) return;
+
+        context.putImageData(
           new ImageData(new Uint8ClampedArray(data), width, height),
           0,
           0,
