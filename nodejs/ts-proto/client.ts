@@ -23,10 +23,8 @@ const request: DispatchActionRequest = {
           items: [
             {
               notificationDispatchItem: {
-                operation: {
-                  uboAction: {
-                    audioPlayChimeAction: { name: "add" },
-                  },
+                storeAction: {
+                  audioPlayChimeAction: { name: "add" },
                 },
                 icon: "󰑣",
                 color: "#ff0000",

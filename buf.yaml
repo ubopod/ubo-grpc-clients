@@ -1,3 +1,1 @@
-version: v2
-modules:
-  - path: proto/
+version: v1

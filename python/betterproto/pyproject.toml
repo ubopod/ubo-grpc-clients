@@ -1,32 +1,43 @@
-[tool.poetry]
+[project]
 name = "ubo-rpc-client-betterproto"
 version = "0.0.0"
 description = "A demo gRPC client for UBO using betterproto"
-authors = ["Sassan Haradji <me@sassanh.com>"]
-license = "Apache-2.0"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Sassan Haradji", email = "me@sassanh.com" }]
+maintainers = [{ name = "Sassan Haradji", email = "me@sassanh.com" }]
 readme = "README.md"
+requires-python = ">=3.11"
 keywords = ["gRPC", "betterproto", "ubo", "Python"]
-repository = "https://github.com/ubopod/ubo-grpc-clients"
-packages = [{ include = "client.py", from = "." }]
+dependencies = ["betterproto [compiler] >=2.0.0b7"]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-betterproto = { extras = ["compiler"], version = "^2.0.0b7" }
+[tool.uv]
+dev-dependencies = ["poethepoet >=0.24.4", "grpcio-tools >=1.66.1"]
 
-[tool.poetry.group.dev.dependencies]
-poethepoet = "^0.29.0"
-grpcio-tools = "^1.66.1"
-
-[tool.poetry.scripts]
+[project.scripts]
 main = "client:main"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "_version.py"
+
+[tool.hatch.version.raw-options]
+local_scheme = "setup_scm_schemes:local_scheme"
+
+[tool.hatch.build]
+packages = ["."]
+
+[tool.hatch.build.targets.sdist]
+packages = ["."]
 
 [tool.poe.tasks]
 "compile" = "sh -c 'mkdir -p generated && python -m grpc_tools.protoc -I ../../proto/ --python_betterproto_opt=typing.310 --python_betterproto_out=generated/ ../../proto/store/v1/store.proto'"
-"start" = "poetry run main"
+"start" = "uv run main"
 
 [tool.ruff]
 target-version = 'py311'

@@ -63,10 +63,9 @@ function subscribeToRenderEvents() {
         return;
       }
       if (data) {
-        const [, , width, height] = rectangle;
+        const [y1, x1, y2, x2] = rectangle;
+        const [width, height] = [x2 - x1, y2 - y1];
         const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-        canvas.width = width;
-        canvas.height = width;
 
         const context = canvas.getContext("2d");
 
@@ -74,8 +73,12 @@ function subscribeToRenderEvents() {
 
         context.putImageData(
           new ImageData(new Uint8ClampedArray(data), width, height),
+          x1,
+          y1,
           0,
           0,
+          width,
+          height,
         );
       }
     });

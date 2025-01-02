@@ -32,7 +32,6 @@ from generated.ubo.v1 import (
     NotificationActions,
     NotificationActionsItem,
     NotificationDispatchItem,
-    NotificationDispatchItemOperation,
     NotificationsAddAction,
 )
 
@@ -144,12 +143,15 @@ def render_in_kitty(event: Event) -> None:
         data = display_render_event.data
         # TODO(sassanh): it needs to take into account the rectangle's position
         # too
-        width, height = display_render_event.rectangle[2:]
+        y1, x1, y2, x2 = display_render_event.rectangle
+        width, height = x2 - x1, y2 - y1
 
         image_base64 = base64.b64encode(data).decode('utf-8')
         chunks = [image_base64[i : i + 4096] for i in range(0, len(image_base64), 4096)]
         kitty_image_protocol = f'\033_Gm={1 if len(chunks) > 1 else 0},a=T,i=1'
-        kitty_image_protocol += f',q=1,C=1,s={width},v={height};{chunks[0]}\033\\'
+        kitty_image_protocol += (
+            f',f=32,q=1,C=1,s={width},v={height},x={y1},y={x1};{chunks[0]}\033\\'
+        )
         for chunk in chunks[1:-1]:
             kitty_image_protocol += f'\033_Gm=1,q=1;{chunk}\033\\'
         if len(chunks) > 1:
@@ -186,12 +188,10 @@ async def connect() -> None:
                 color='#ff0000',
                 background_color='#00ff00',
                 icon='󰑣',
-                operation=NotificationDispatchItemOperation(
-                    ubo_action=Action(
-                        keypad_key_press_action=KeypadKeyPressAction(
-                            key=Key.HOME,
-                            time=0.0,
-                        ),
+                store_action=Action(
+                    keypad_key_press_action=KeypadKeyPressAction(
+                        key=Key.HOME,
+                        time=0.0,
                     ),
                 ),
             ),
@@ -213,10 +213,10 @@ async def connect() -> None:
 
     if is_kitty_supported:
         sys.stdout.write('\033[2J\033[H')
-        save_image = render_in_kitty
+        render_image = render_in_kitty
     elif is_iterm2_supported:
         sys.stdout.write('\033[2J\033[H')
-        save_image = render_in_iterm
+        render_image = render_in_iterm
     else:
         print('Saving display in `display.raw`')
         print(
@@ -224,7 +224,7 @@ async def connect() -> None:
             'screen in your terminal.',
         )
 
-        def save_image(event: Event) -> None:
+        def render_image(event: Event) -> None:
             if event.display_render_event:
                 display_render_event = event.display_render_event
                 data = display_render_event.data
@@ -234,7 +234,7 @@ async def connect() -> None:
 
     await store.subscribe_event(
         Event(display_render_event=DisplayRenderEvent()),
-        save_image,
+        render_image,
     )
     store.channel.close()
 

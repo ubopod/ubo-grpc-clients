@@ -34,10 +34,8 @@ const request = new store.DispatchActionRequest({
           items: [
             new ubo.Notification.ActionsItem({
               notificationDispatchItem: new ubo.NotificationDispatchItem({
-                operation: new ubo.NotificationDispatchItem.Operation({
-                  uboAction: new ubo.Action({
-                    audioPlayChimeAction: { name: "add" },
-                  }),
+                storeAction: new ubo.Action({
+                  audioPlayChimeAction: { name: "add" },
                 }),
                 icon: "󰑣",
                 color: "#ff0000",
