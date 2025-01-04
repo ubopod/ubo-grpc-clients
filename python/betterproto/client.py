@@ -136,6 +136,11 @@ def _is_kitty_supported() -> bool:
 is_kitty_supported = _is_kitty_supported()
 is_iterm2_supported = os.environ.get('TERM_PROGRAM') == 'iTerm.app'
 
+WIDTH = 480
+HEIGHT = 480
+frame_buffer = bytearray(WIDTH * HEIGHT * 4)
+frame_buffer[:] = b'\x00\x00\x00\x00' * WIDTH * HEIGHT
+
 
 def render_in_kitty(event: Event) -> None:
     if event.display_render_event:
@@ -146,12 +151,17 @@ def render_in_kitty(event: Event) -> None:
         y1, x1, y2, x2 = display_render_event.rectangle
         width, height = x2 - x1, y2 - y1
 
-        image_base64 = base64.b64encode(data).decode('utf-8')
+        for row in range(height):
+            src_start = row * width * 4
+            src_end = src_start + width * 4
+            dst_start = ((y1 + row) * WIDTH + x1) * 4
+            dst_end = dst_start + width * 4
+            frame_buffer[dst_start:dst_end] = data[src_start:src_end]
+
+        image_base64 = base64.b64encode(frame_buffer).decode('utf-8')
         chunks = [image_base64[i : i + 4096] for i in range(0, len(image_base64), 4096)]
         kitty_image_protocol = f'\033_Gm={1 if len(chunks) > 1 else 0},a=T,i=1'
-        kitty_image_protocol += (
-            f',f=32,q=1,C=1,s={width},v={height},x={y1},y={x1};{chunks[0]}\033\\'
-        )
+        kitty_image_protocol += f',f=32,q=1,C=1,s={WIDTH},v={HEIGHT};{chunks[0]}\033\\'
         for chunk in chunks[1:-1]:
             kitty_image_protocol += f'\033_Gm=1,q=1;{chunk}\033\\'
         if len(chunks) > 1:
