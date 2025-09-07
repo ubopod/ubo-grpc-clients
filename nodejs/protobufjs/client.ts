@@ -24,29 +24,31 @@ const client: InstanceType<typeof store.StoreService> = new (
 
 // Prepare the request
 const request = new store.DispatchActionRequest({
-  action: new ubo.Action({
-    notificationsAddAction: new ubo.NotificationsAddAction({
-      notification: new ubo.Notification({
+  action: {
+    notificationsAddAction: {
+      notification: {
         title: "Hello, World!",
         content: "This is a notification",
         chime: ubo.Chime.CHIME_DONE,
-        actions: new ubo.Notification.Actions({
+        actions: {
           items: [
-            new ubo.Notification.ActionsItem({
-              notificationDispatchItem: new ubo.NotificationDispatchItem({
-                storeAction: new ubo.Action({
-                  audioPlayChimeAction: { name: "add" },
-                }),
+            {
+              notificationDispatchItem: {
+                storeAction: {
+                  uboAction: {
+                    audioPlayChimeAction: { name: "add" },
+                  },
+                },
                 icon: "󰑣",
                 color: "#ff0000",
                 backgroundColor: "#00ff00",
-              }),
-            }),
+              },
+            },
           ],
-        }),
-      }),
-    }),
-  }),
+        },
+      },
+    },
+  },
 });
 
 // Make a unary RPC call

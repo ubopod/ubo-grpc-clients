@@ -16,7 +16,7 @@
     "compile": "mkdir -p src/generated && npx grpc_tools_node_protoc --plugin=protoc-gen-js=./node_modules/.bin/protoc-gen-js --js_out=import_style=commonjs:./src/generated --grpc-web_out=import_style=typescript,mode=grpcwebtext:./src/generated -I ../../proto/ ../../proto/package_info/v1/package_info.proto ../../proto/store/v1/store.proto ../../proto/ubo/v1/ubo.proto",
     "start": "webpack serve --open",
     "proxy": "envsub envoy.yaml.tmpl envoy.yaml; envoy --config-path envoy.yaml",
-    "proxy:docker": "GRPC_HOST=host.docker.internal envsub envoy.yaml.tmpl envoy.yaml; docker run --rm -it -v $(pwd)/envoy.yaml:/envoy.yaml -p 8080:8080 -p 50051:50051 envoyproxy/envoy:dev --config-path envoy.yaml",
+    "proxy:docker": "GRPC_HOST=host.docker.internal envsub envoy.yaml.tmpl envoy.yaml; docker run --rm -it -v $(pwd)/envoy.yaml:/envoy.yaml -p 8080:8080 -p 50054:50054 envoyproxy/envoy:dev --config-path envoy.yaml",
     "build": "webpack"
   },
   "devDependencies": {

@@ -11,7 +11,9 @@ import {
   DisplayCompressedRenderEvent,
   Event,
   Key,
+  KeypadAction,
   KeypadKeyPressAction,
+  KeypadKeyReleaseAction,
   Notification,
   NotificationsAddAction,
 } from "./generated/ubo/v1/ubo_pb";
@@ -20,8 +22,8 @@ const store = new StoreServiceClient("http://localhost:8080", null, null);
 
 function dispatchSampleNotification() {
   const notification = new Notification();
-  notification.setTitle("Hello");
-  notification.setContent("World");
+  notification.setTitle("Web UI");
+  notification.setContent("Connected");
 
   const notificationsAddAction = new NotificationsAddAction();
   notificationsAddAction.setNotification(notification);
@@ -183,10 +185,35 @@ function isValidKey(key: string): key is KeyType {
   return key in KEYS;
 }
 
+const pressedKeys = new KeypadAction.PressedKeysSetType();
+
 document.addEventListener("keyup", ({ key }) => {
   if (isValidKey(key)) {
+    pressedKeys.setItemsList(
+      pressedKeys.getItemsList().filter((item) => item !== KEYS[key]),
+    );
+
+    const keypadKeyReleaseAction = new KeypadKeyReleaseAction();
+    keypadKeyReleaseAction.setKey(KEYS[key]);
+    keypadKeyReleaseAction.setPressedKeys(pressedKeys);
+
+    const action = new Action();
+    action.setKeypadKeyReleaseAction(keypadKeyReleaseAction);
+
+    const dispatchActionRequest = new DispatchActionRequest();
+    dispatchActionRequest.setAction(action);
+
+    store.dispatchAction(dispatchActionRequest);
+  }
+});
+
+document.addEventListener("keydown", ({ key }) => {
+  if (isValidKey(key)) {
+    pressedKeys.addItems(KEYS[key]);
+
     const keypadKeyPressAction = new KeypadKeyPressAction();
     keypadKeyPressAction.setKey(KEYS[key]);
+    keypadKeyPressAction.setPressedKeys(pressedKeys);
 
     const action = new Action();
     action.setKeypadKeyPressAction(keypadKeyPressAction);

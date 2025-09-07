@@ -8,7 +8,11 @@ maintainers = [{ name = "Sassan Haradji", email = "me@sassanh.com" }]
 readme = "README.md"
 requires-python = ">=3.11"
 keywords = ["gRPC", "betterproto", "ubo", "Python"]
-dependencies = ["betterproto [compiler] >=2.0.0b7"]
+dependencies = [
+    "betterproto [compiler] >=2.0.0b7",
+    "numpy>=2.3.2",
+    "pyaudio>=0.2.14",
+]
 
 [tool.uv]
 dev-dependencies = ["poethepoet >=0.24.4", "grpcio-tools >=1.66.1"]
